@@ -14,6 +14,22 @@ function App() {
 
   useEffect(() => {
     // Сообщаем Telegram, что приложение готово к работе
+    // Функция для отправки данных боту
+const onSendData = () => {
+    const data = {
+        products: 'Выбранные товары', // Тут можно собрать массив из корзины
+        totalPrice: 550
+    }
+    tg.sendData(JSON.stringify(data));
+};
+
+// Подписываемся на событие нажатия на кнопку MainButton
+useEffect(() => {
+    tg.onEvent('mainButtonClicked', onSendData);
+    return () => {
+        tg.offEvent('mainButtonClicked', onSendData);
+    }
+}, [onSendData]);
     tg.ready();
   }, []);
 
